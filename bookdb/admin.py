@@ -32,3 +32,4 @@ class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'genre', 'library', 'availability')
     search_fields = ('title', 'author__name', 'genre__name')
     list_filter = ('genre', 'availability', 'library')
+  
