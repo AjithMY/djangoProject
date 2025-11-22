@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="card">
+    <h2>Book List</h2>
+    <table class="table">
+      <thead>
+        <tr><th>Title</th><th>Author</th><th>Genre</th><th>Availability</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+      {% for book in books %}
+        <tr>
+          <td style="width:260px;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              {% if book.cover_image %}
+                <img src="{{ book.cover_image.url }}" alt="cover" class="book-cover-original" />
+              {% endif %}
+              <div>{{ book.title }}</div>
+            </div>
+          </td>
+          <td>{{ book.author.name }}</td>
+          <td>{{ book.genre.name }}</td>
+          <td>{{ book.availability.status }}</td>
+          <td>
+            <a class="btn" href="{% url 'book_detail' book.pk %}">View</a>
+            <a class="btn" href="{% url 'edit_book' book.pk %}">Edit</a>
+            <a class="btn btn-danger" href="{% url 'delete_book' book.pk %}">Delete</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="5">No books found.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

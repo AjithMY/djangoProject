@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="card">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+      <div style="display:flex; gap:12px; align-items:center;">
+        {% if book.cover_image %}
+          <img src="{{ book.cover_image.url }}" alt="cover" class="book-cover-original" />
+        {% endif %}
+        <div>
+          <h1>{{ book.title }}</h1>
+          <p class="muted">by {{ book.author.name }} • {{ book.genre.name }} • {{ book.published_year }}</p>
+        </div>
+      </div>
+      <div>
+        <span class="btn-outline">{{ book.availability.status }}</span>
+      </div>
+    </div>
+
+    <hr>
+    <p><strong>Library:</strong> {{ book.library.name }}</p>
+    <p><strong>Description:</strong><br>{{ book.description }}</p>
+
+    <div class="actions">
+      <a class="btn" href="{% url 'edit_book' book.pk %}">Edit</a>
+      <a class="btn" href="{% url 'recommendations_for_book' book.pk %}">Recommend Similar Books</a>
+      <a class="btn btn-outline" href="{% url 'book_list' %}">Back to List</a>
+    </div>
+  </div>
+  {% if genre_recs %}
+    <div class="card">
+      <h3>Similar books in {{ book.genre.name }}</h3>
+      <div class="grid">
+        {% for b in genre_recs %}
+          <div class="card" style="padding:10px; text-align:left;">
+            <a href="{% url 'book_detail' b.pk %}">
+              {% if b.cover_image %}
+                <img src="{{ b.cover_image.url }}" alt="cover" class="book-cover-original" />
+              {% endif %}
+              <h4 style="margin:8px 0 4px;">{{ b.title }}</h4>
+            </a>
+            <div class="muted">{{ b.author.name }} • {{ b.published_year }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

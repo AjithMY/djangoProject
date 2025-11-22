@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="card recommendations">
+    <h2>Recommendations</h2>
+    {% if current %}
+      <p>Books similar to <strong>{{ current.title }}</strong> (Genre: {{ current.genre.name }})</p>
+      {% if recommended %}
+        <div class="grid">
+          {% for book in recommended %}
+            <div class="card" style="padding:10px;">
+              <a href="{% url 'book_detail' book.pk %}">
+                  {% if book.cover_image %}
+                    <img src="{{ book.cover_image.url }}" alt="cover" class="rec-original" />
+                  {% endif %}
+                <h4 style="margin:8px 0 4px;">{{ book.title }}</h4>
+              </a>
+              <div class="muted">{{ book.author.name }} • {{ book.published_year }}</div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>No recommendations found for this genre.</p>
+      {% endif %}
+    {% else %}
+      <p>Recommendations by genre</p>
+      {% if grouped %}
+        {% for genre, books in grouped %}
+          <h3>{{ genre.name }}</h3>
+          <div class="grid">
+            {% for book in books %}
+              <div class="card" style="padding:10px;">
+                <a href="{% url 'book_detail' book.pk %}">
+                  {% if book.cover_image %}
+                    <img src="{{ book.cover_image.url }}" alt="cover" class="rec-original" />
+                  {% endif %}
+                  <h4 style="margin:8px 0 4px;">{{ book.title }}</h4>
+                </a>
+                <div class="muted">{{ book.author.name }} • {{ book.published_year }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No recommended books available.</p>
+      {% endif %}
+    {% endif %}
+  </div>
+{% endblock %}

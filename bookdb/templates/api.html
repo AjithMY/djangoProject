@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="card">
+    <h2>API Endpoints</h2>
+    <p>This page documents the simple JSON API available in this application.</p>
+
+    <h3>Endpoints</h3>
+    <ul>
+      {% for ep in endpoints %}
+        <li><strong>{{ ep.method }}</strong> <code>{{ ep.path }}</code> — {{ ep.desc }}</li>
+      {% endfor %}
+    </ul>
+
+    <h3>Sample Response</h3>
+    <pre style="background:#f7fbff;padding:12px;border-radius:8px;">{{ sample|safe|json_script:'sample' }}</pre>
+
+    <h3>Examples</h3>
+    <p>Use curl to fetch all books:</p>
+    <pre>curl http://127.0.0.1:8000/api/books/</pre>
+    <p>Fetch a single book:</p>
+    <pre>curl http://127.0.0.1:8000/api/books/1/</pre>
+  </div>
+{% endblock %}

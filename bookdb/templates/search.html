@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="card">
+    <h2>Search Books</h2>
+    <form method="get" action="{% url 'search' %}" style="display:flex; gap:8px; align-items:center;">
+      <input type="text" name="q" placeholder="Search title, author, genre" value="{{ query }}">
+      <button type="submit">Search</button>
+    </form>
+
+    {% if query %}
+      <h3 style="margin-top:12px;">Results for "{{ query }}"</h3>
+        <table class="table">
+          <thead><tr><th>Title</th><th>Author</th><th>Genre</th><th>Availability</th></tr></thead>
+          <tbody>
+          {% for book in results %}
+            <tr>
+              <td style="width:260px;">
+                <div style="display:flex; align-items:center; gap:12px;">
+                  {% if book.cover_image %}
+                    <img src="{{ book.cover_image.url }}" alt="cover" class="book-cover-original" />
+                  {% endif %}
+                  <div><a href="{% url 'book_detail' book.pk %}">{{ book.title }}</a></div>
+                </div>
+              </td>
+              <td>{{ book.author.name }}</td>
+              <td>{{ book.genre.name }}</td>
+              <td>{{ book.availability.status }}</td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="4">No results found.</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+    {% endif %}
+  </div>
+{% endblock %}

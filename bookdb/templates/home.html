@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="grid">
+    <div class="card">
+      <h2>Explore Books</h2>
+      <p>Browse all books in Mysuru libraries.</p>
+      <a class="btn" href="/books/">View All Books</a>
+    </div>
+    <div class="card">
+      <h2>Search</h2>
+      <p>Find books by title, author or genre.</p>
+      <a class="btn" href="/search/">Search Books</a>
+    </div>
+    <div class="card">
+      <h2>Add New</h2>
+      <p>Contribute a new book to the collection.</p>
+      <a class="btn" href="/books/add/">Add a Book</a>
+    </div>
+    <div class="card">
+      <h2>Recommendations</h2>
+      <p>See books similar to the one you like.</p>
+      <a class="btn" href="/recommendations/">Recommendations</a>
+    </div>
+  </div>
+{% endblock %}

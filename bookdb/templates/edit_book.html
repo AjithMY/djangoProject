@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Edit Book: {{ book.title }}</h1>
+  <form method="post" class="card" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p>
+      {{ form.title.label_tag }}<br>
+      {{ form.title }}
+    </p>
+    <p>
+      {{ form.author_name.label_tag }}<br>
+      {{ form.author_name }}
+    </p>
+    <p>
+      {{ form.genre.label_tag }}<br>
+      {{ form.genre }}
+    </p>
+    <p>
+      {{ form.library_name.label_tag }}<br>
+      {{ form.library_name }}
+    </p>
+    <p>
+      {{ form.availability_status.label_tag }}<br>
+      {{ form.availability_status }}
+    </p>
+    <p>
+      {{ form.published_year.label_tag }}<br>
+      {{ form.published_year }}
+    </p>
+    <p>
+      {{ form.description.label_tag }}<br>
+      {{ form.description }}
+    </p>
+    <p>
+      {{ form.cover_image.label_tag }}<br>
+      {{ form.cover_image }}
+      {% if book.cover_image %}
+        <div style="margin-top:8px;"><img src="{{ book.cover_image.url }}" alt="cover" class="book-cover-original"/></div>
+      {% endif %}
+    </p>
+    <div style="display:flex; gap:8px;">
+      <button type="submit">Save Changes</button>
+      <a class="btn btn-outline" href="{% url 'book_detail' book.pk %}">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

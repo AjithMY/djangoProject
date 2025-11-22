@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mysuru Library</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+        <div class="layout">
+            <aside class="sidebar" id="sidebar">
+                <div class="brand-box">
+                    <a class="brand" href="/">
+                        <svg id="logo" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                            <g fill="none" stroke="none">
+                                <rect x="6" y="12" width="36" height="40" rx="3" fill="#ffffff" opacity="0.02" />
+                                <path id="logo-cover" d="M10 14 L42 14 L42 50 L10 46 Z" fill="none" stroke="#ffffff" stroke-width="2" stroke-linejoin="round"/>
+                                <path id="logo-page1" d="M12 18 L36 22 L36 46 L12 42 Z" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linejoin="round"/>
+                                <path id="logo-page2" d="M14 20 L38 24 L38 48 L14 44 Z" fill="none" stroke="#ffffff" stroke-width="1" stroke-linejoin="round"/>
+                            </g>
+                        </svg>
+                        Mysuru Library
+                    </a>
+                </div>
+                <nav class="side-nav">
+                    <ul>
+                        <li><a href="/">🏠 Home</a></li>
+                        <li><a href="/books/">📚 Book List</a></li>
+                        <li><a href="/search/">🔎 Search</a></li>
+                        <li><a href="/books/add/">➕ Add Book</a></li>
+                        <li><a href="/recommendations/">✨ Recommendations</a></li>
+                        <li><a href="/api/">🌐 API Docs</a></li>
+                    </ul>
+                </nav>
+                <div class="sidebar-footer">Mysuru · Library Portal</div>
+            </aside>
+
+            <div class="main-area">
+                <header class="hero">
+                    <div class="hero-inner">
+                        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+                            <div>
+                                <h1>Mysuru Library</h1>
+                                <p>Your friendly library portal — discover, borrow and recommend books.</p>
+                            </div>
+                            <div>
+                                <button id="sidebarToggle" class="sidebar-toggle" title="Open menu">⋯</button>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <main class="content container">
+                    {% block content %}{% endblock %}
+                </main>
+            </div>
+        </div>
+
+        <script>
+            (function(){
+                const btn = document.getElementById('sidebarToggle');
+                const layout = document.querySelector('.layout');
+                const sidebar = document.getElementById('sidebar');
+                function toggle(){
+                    document.documentElement.classList.toggle('sidebar-open');
+                }
+                if(btn){
+                    btn.addEventListener('click', function(e){
+                        e.preventDefault();
+                        toggle();
+                    });
+                }
+                // close sidebar when clicking outside on small screens
+                document.addEventListener('click', function(e){
+                    if(!document.documentElement.classList.contains('sidebar-open')) return;
+                    const inside = sidebar.contains(e.target) || (btn && btn.contains(e.target));
+                    if(!inside && window.innerWidth < 900){
+                        document.documentElement.classList.remove('sidebar-open');
+                    }
+                });
+                // Logo draw animation on load
+                function animateLogo(){
+                    try{
+                        const cover = document.getElementById('logo-cover');
+                        const p1 = document.getElementById('logo-page1');
+                        const p2 = document.getElementById('logo-page2');
+                        // trigger stroke-draw by toggling class after small delays
+                        setTimeout(()=>{ cover.classList.add('drawn'); }, 120);
+                        setTimeout(()=>{ p1.classList.add('drawn'); }, 300);
+                        setTimeout(()=>{ p2.classList.add('drawn'); }, 420);
+                        // add bounce to whole svg
+                        const svg = document.getElementById('logo');
+                        setTimeout(()=>{ svg.classList.add('logo-bounce'); }, 760);
+                    }catch(err){ /* ignore */ }
+                }
+                document.addEventListener('DOMContentLoaded', animateLogo);
+            })();
+        </script>
+    <footer class="footer">&copy; Mysuru Library</footer>
+</body>
+</html>
